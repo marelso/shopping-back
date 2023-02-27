@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class CatalogServiceTest {
@@ -38,5 +39,16 @@ class CatalogServiceTest {
 
         assertThat(caughtException(), instanceOf(NotFoundException.class));
         then(repository).should().findById(catalogId);
+    }
+
+    @Test
+    public void shouldInsertNewCatalogInRepository() {
+        var expectedCatalog = mock(Catalog.class);
+        var request = mock(Catalog.class);
+
+        given(repository.save(request)).willReturn(expectedCatalog);
+
+
+        var result = subject.create(request);
     }
 }
