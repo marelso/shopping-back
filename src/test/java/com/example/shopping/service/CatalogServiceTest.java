@@ -78,7 +78,7 @@ class CatalogServiceTest {
     }
 
     @Test
-    public void shouldUpdateGivenCoupon() {
+    public void shouldUpdateGivenCatalog() {
         var catalogId = 1;
         var request = mock(Catalog.class);
         var existing = mock(Catalog.class);
@@ -89,5 +89,10 @@ class CatalogServiceTest {
 
 
         var result = subject.update(catalogId, request);
+
+
+        then(factory).should().from(existing, request);
+        then(repository).should().save(existing);
+        assertEquals(existing, result);
     }
 }
