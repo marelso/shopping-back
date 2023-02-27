@@ -71,7 +71,7 @@ class CategoryServiceTest {
         given(repository.findAll()).willReturn(list);
 
 
-        var result = subject.list();
+        var result = subject.list(null);
 
 
         assertEquals(list, result);

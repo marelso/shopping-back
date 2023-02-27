@@ -24,8 +24,9 @@ public class CategoryService {
                 .orElseThrow(() -> new NotFoundException("Category", id));
     }
 
-    public List<Category> list() {
-        return repository.findAll();
+    public List<Category> list(Integer catalogId) {
+        return catalogId == null ? repository.findAll()
+                : repository.findAllByCatalogId(catalogId);
     }
 
     public Category create(Category request) {
