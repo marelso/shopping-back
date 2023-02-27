@@ -74,4 +74,14 @@ class CategoryServiceTest {
         then(repository).should().findAll();
     }
 
+    @Test
+    public void shouldInsertNewCategoryInRepository() {
+        var expectedCategory = mock(Category.class);
+        var request = mock(Category.class);
+
+        given(repository.save(request)).willReturn(expectedCategory);
+
+
+        var result = subject.create(request);
+    }
 }
