@@ -78,6 +78,21 @@ class CatalogServiceTest {
     }
 
     @Test
+    public void shouldRetrieveGivenCatalogById() {
+        var catalogId = 0;
+        var expectedCatalog = mock(Catalog.class);
+
+        given(repository.findById(catalogId)).willReturn(Optional.of(expectedCatalog));
+
+
+        var result = subject.findById(catalogId);
+
+
+        then(repository).should().findById(catalogId);
+        assertEquals(expectedCatalog, result);
+    }
+
+    @Test
     public void shouldUpdateGivenCatalog() {
         var catalogId = 1;
         var request = mock(Catalog.class);
