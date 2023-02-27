@@ -2,6 +2,7 @@ package com.example.shopping.service;
 
 import com.example.shopping.domain.Category;
 import com.example.shopping.exception.NotFoundException;
+import com.example.shopping.factory.CategoryFactory;
 import com.example.shopping.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository repository;
+    private final CategoryFactory factory;
 
     public Category findById(Integer id) {
         return get(id);
@@ -28,6 +30,12 @@ public class CategoryService {
 
     public Category create(Category request) {
         return repository.save(request);
+    }
+
+    public Category update(Integer id, Category request) {
+        var category = get(id);
+
+        return repository.save(factory.from(category, request));
     }
 
     public void delete(Integer id) {
