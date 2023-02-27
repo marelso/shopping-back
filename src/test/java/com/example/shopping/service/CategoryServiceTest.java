@@ -1,6 +1,7 @@
 package com.example.shopping.service;
 
 import com.example.shopping.domain.Category;
+import com.example.shopping.exception.NotFoundException;
 import com.example.shopping.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +12,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static com.googlecode.catchexception.CatchException.catchException;
+import static com.googlecode.catchexception.CatchException.caughtException;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
@@ -30,6 +35,10 @@ class CategoryServiceTest {
 
 
         catchException(() -> subject.findById(categoryId));
+
+
+        assertThat(caughtException(), instanceOf(NotFoundException.class));
+        then(repository).should().findById(categoryId);
     }
 
 }
