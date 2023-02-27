@@ -95,4 +95,19 @@ class CatalogServiceTest {
         then(repository).should().save(existing);
         assertEquals(existing, result);
     }
+
+    @Test
+    public void shouldThrowExceptionWhenUpdatingInvalidCatalog() {
+        var catalogId = 1;
+        var request = mock(Catalog.class);
+
+        given(repository.findById(catalogId)).willReturn(Optional.empty());
+
+
+        catchException(() -> subject.update(catalogId, request));
+
+
+        assertThat(caughtException(), instanceOf(NotFoundException.class));
+        then(repository).should().findById(catalogId);
+    }
 }
