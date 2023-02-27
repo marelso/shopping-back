@@ -37,4 +37,12 @@ public class CouponService {
 
         return repository.save(factory.from(coupon, request));
     }
+
+    public void delete(Integer id) {
+        //TODO The offers module will have a FICA-like reference to the coupon entity.
+        // When deleting a coupon with reference, the database will throw an exception.
+        // I think the ideal is to prevent this exception.
+
+        repository.deleteById(id);
+    }
 }
