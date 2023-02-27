@@ -19,4 +19,8 @@ public class CatalogService {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Catalog", id));
     }
+
+    public Catalog create(Catalog request) {
+        return repository.save(request);
+    }
 }
