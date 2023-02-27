@@ -91,5 +91,9 @@ class CouponServiceTest {
 
         var result = subject.update(couponId, request);
 
+
+        then(factory).should().from(existing, request);
+        then(repository).should().save(existing);
+        assertEquals(existing, result);
     }
 }
