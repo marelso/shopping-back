@@ -45,12 +45,15 @@ class CouponServiceTest {
 
     @Test
     public void shouldInsertNewCouponInRepository() {
-        var expectCoupon = mock(Coupon.class);
+        var expectedCoupon = mock(Coupon.class);
         var request = mock(Coupon.class);
 
-        given(repository.save(request)).willReturn(expectCoupon);
+        given(repository.save(request)).willReturn(expectedCoupon);
 
 
         var result = subject.create(request);
+
+
+        assertEquals(expectedCoupon, result);
     }
 }
