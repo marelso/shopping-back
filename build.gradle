@@ -15,7 +15,7 @@ repositories {
 dependencies {
 	//Spring dependencies
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	//Swagger dependencies
 	implementation 'io.springfox:springfox-swagger2:3.0.0'
@@ -32,6 +32,7 @@ dependencies {
 	//Tests dependencies
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'eu.codearte.catch-exception:catch-exception:2.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
