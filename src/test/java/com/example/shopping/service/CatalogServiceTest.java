@@ -2,6 +2,7 @@ package com.example.shopping.service;
 
 import com.example.shopping.domain.Catalog;
 import com.example.shopping.exception.NotFoundException;
+import com.example.shopping.factory.CatalogFactory;
 import com.example.shopping.repository.CatalogRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,7 @@ import static com.googlecode.catchexception.CatchException.caughtException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
@@ -25,6 +27,8 @@ import static org.mockito.Mockito.mock;
 class CatalogServiceTest {
     @Mock
     private CatalogRepository repository;
+    @Mock
+    private CatalogFactory factory;
     @InjectMocks
     private CatalogService subject;
 
@@ -71,5 +75,19 @@ class CatalogServiceTest {
 
         assertEquals(list, result);
         then(repository).should().findAll();
+    }
+
+    @Test
+    public void shouldUpdateGivenCoupon() {
+        var catalogId = 1;
+        var request = mock(Catalog.class);
+        var existing = mock(Catalog.class);
+
+        given(factory.from(existing, request)).willReturn(existing);
+        given(repository.findById(catalogId)).willReturn(Optional.of(existing));
+        given(repository.save(any(Catalog.class))).willReturn(existing);
+
+
+        var result = subject.update(catalogId, request);
     }
 }
