@@ -87,4 +87,12 @@ class CategoryServiceTest {
 
         assertEquals(expectedCategory, result);
     }
+
+    @Test
+    public void shouldUpdateGivenCategory() {
+        var categoryId = 1;
+        var request = mock(Category.class);
+        var existing = mock(Category.class);
+
+        given(factory.from(existing, request)).willReturn(existing);
 }
