@@ -6,6 +6,8 @@ import com.example.shopping.repository.CatalogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CatalogService {
@@ -22,5 +24,9 @@ public class CatalogService {
 
     public Catalog create(Catalog request) {
         return repository.save(request);
+    }
+
+    public List<Catalog> list() {
+        return repository.findAll();
     }
 }
