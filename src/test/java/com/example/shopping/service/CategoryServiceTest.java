@@ -110,4 +110,19 @@ class CategoryServiceTest {
         then(repository).should().save(existing);
         assertEquals(existing, result);
     }
+
+    @Test
+    public void shouldThrowExceptionWhenUpdatingInvalidCategory() {
+        var categoryId = 1;
+        var request = mock(Category.class);
+
+        given(repository.findById(categoryId)).willReturn(Optional.empty());
+
+
+        catchException(() -> subject.update(categoryId, request));
+
+
+        assertThat(caughtException(), instanceOf(NotFoundException.class));
+        then(repository).should().findById(categoryId);
+    }
 }
