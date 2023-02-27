@@ -6,6 +6,8 @@ import com.example.shopping.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CouponService {
@@ -21,5 +23,9 @@ public class CouponService {
 
     public Coupon create(Coupon request) {
         return repository.save(request);
+    }
+
+    public List<Coupon> list() {
+        return repository.findAll();
     }
 }
