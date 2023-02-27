@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static com.googlecode.catchexception.CatchException.catchException;
@@ -43,7 +44,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void shouldRetrieveGivenCatalogById() {
+    public void shouldRetrieveGivenCategoryById() {
         var categoryId = 0;
         var expectedCategory = mock(Category.class);
 
@@ -55,6 +56,18 @@ class CategoryServiceTest {
 
         then(repository).should().findById(categoryId);
         assertEquals(expectedCategory, result);
+    }
+
+    @Test
+    public void shouldRetrieveAllCategories() {
+        var firstCategory = mock(Category.class);
+        var secondCategory = mock(Category.class);
+        var list = Arrays.asList(firstCategory, secondCategory);
+
+        given(repository.findAll()).willReturn(list);
+
+
+        var result = subject.list();
     }
 
 }
