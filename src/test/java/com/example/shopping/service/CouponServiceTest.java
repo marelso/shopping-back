@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -40,5 +41,16 @@ class CouponServiceTest {
 
         assertThat(caughtException(), instanceOf(NotFoundException.class));
         then(repository).should().findById(couponId);
+    }
+
+    @Test
+    public void shouldInsertNewCouponInRepository() {
+        var expectCoupon = mock(Coupon.class);
+        var request = mock(Coupon.class);
+
+        given(repository.save(request)).willReturn(expectCoupon);
+
+
+        var result = subject.create(request);
     }
 }
