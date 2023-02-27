@@ -3,6 +3,7 @@ package com.example.shopping.service;
 import static com.googlecode.catchexception.CatchException.catchException;
 import com.example.shopping.domain.Coupon;
 import com.example.shopping.exception.NotFoundException;
+import com.example.shopping.factory.CouponFactory;
 import com.example.shopping.repository.CouponRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,7 @@ import static com.googlecode.catchexception.CatchException.caughtException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
@@ -26,6 +28,8 @@ import static org.mockito.Mockito.mock;
 class CouponServiceTest {
     @Mock
     private CouponRepository repository;
+    @Mock
+    private CouponFactory factory;
     @InjectMocks
     private CouponService subject;
 
@@ -72,5 +76,20 @@ class CouponServiceTest {
 
         assertEquals(list, result);
         then(repository).should().findAll();
+    }
+
+    @Test
+    public void shouldUpdateGivenCoupon() {
+        var couponId = 1;
+        var request = mock(Coupon.class);
+        var existing = mock(Coupon.class);
+
+        given(factory.from(existing, request)).willReturn(existing);
+        given(repository.findById(couponId)).willReturn(Optional.of(existing));
+        given(repository.save(any(Coupon.class))).willReturn(existing);
+
+
+        var result = subject.update(couponId, request);
+
     }
 }
