@@ -96,4 +96,19 @@ class CouponServiceTest {
         then(repository).should().save(existing);
         assertEquals(existing, result);
     }
+
+    @Test
+    public void shouldThrowExceptionWhenUpdatingInvalidCoupon() {
+        var couponId = 1;
+        var request = mock(Coupon.class);
+
+        given(repository.findById(couponId)).willReturn(Optional.empty());
+
+
+        catchException(() -> subject.update(couponId, request));
+
+
+        assertThat(caughtException(), instanceOf(NotFoundException.class));
+        then(repository).should().findById(couponId);
+    }
 }
