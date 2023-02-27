@@ -2,6 +2,7 @@ package com.example.shopping.service;
 
 import com.example.shopping.domain.Category;
 import com.example.shopping.exception.NotFoundException;
+import com.example.shopping.factory.CategoryFactory;
 import com.example.shopping.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,8 @@ import static org.mockito.Mockito.mock;
 class CategoryServiceTest {
     @Mock
     private CategoryRepository repository;
+    @Mock
+    private CategoryFactory factory;
     @InjectMocks
     private CategoryService subject;
 
