@@ -94,4 +94,9 @@ public class OfferService {
 
         return response;
     }
+
+    public void delete(Integer id) {
+        relationService.deleteByOffersId(id);
+        repository.deleteById(id);
+    }
 }
