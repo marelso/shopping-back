@@ -104,5 +104,10 @@ class CategoryServiceTest {
 
 
         var result = subject.update(categoryId, request);
+
+
+        then(factory).should().from(existing, request);
+        then(repository).should().save(existing);
+        assertEquals(existing, result);
     }
 }
