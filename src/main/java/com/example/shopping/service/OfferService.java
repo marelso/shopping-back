@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,20 @@ public class OfferService {
     private final CategoryService categoryService;
     private final CouponService couponService;
     private final OfferCategoryService relationService;
+
+    public List<OfferDTO> list() {
+        return repository.findAll()
+                .stream()
+                .map((o) -> {
+                    List<Category> categories = new ArrayList<>();
+                    List<OfferCategory> relatedCategories = relationService.findAllByOffersId(o.getId());
+                    relatedCategories.forEach((r) -> categories.add(categoryService.findById(r.getCategoryId())));
+                    return factory.from(o
+                            , o.getCouponId() != null ? couponService.findById(o.getCouponId()) : null
+                            , categories);
+                })
+                .collect(Collectors.toList());
+    }
 
     public OfferDTO findById(Integer id) {
         var offer = get(id);
