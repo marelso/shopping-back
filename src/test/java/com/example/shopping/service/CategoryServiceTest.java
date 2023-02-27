@@ -18,6 +18,7 @@ import static com.googlecode.catchexception.CatchException.caughtException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
@@ -98,4 +99,10 @@ class CategoryServiceTest {
         var existing = mock(Category.class);
 
         given(factory.from(existing, request)).willReturn(existing);
+        given(repository.findById(categoryId)).willReturn(Optional.of(existing));
+        given(repository.save(any(Category.class))).willReturn(existing);
+
+
+        var result = subject.update(categoryId, request);
+    }
 }
