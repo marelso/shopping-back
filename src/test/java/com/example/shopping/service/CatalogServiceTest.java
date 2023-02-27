@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static com.googlecode.catchexception.CatchException.catchException;
@@ -54,5 +55,17 @@ class CatalogServiceTest {
 
 
         assertEquals(expectedCatalog, result);
+    }
+
+    @Test
+    public void shouldRetrieveAllCatalogs() {
+        var firstCatalog = mock(Catalog.class);
+        var secondCatalog = mock(Catalog.class);
+        var list = Arrays.asList(firstCatalog, secondCatalog);
+
+        given(repository.findAll()).willReturn(list);
+
+
+        var result = subject.list();
     }
 }
