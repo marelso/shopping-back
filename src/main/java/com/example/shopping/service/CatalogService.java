@@ -37,4 +37,12 @@ public class CatalogService {
 
         return repository.save(factory.from(catalog, request));
     }
+
+    public void delete(Integer id) {
+        //TODO The categories module will have a FK-like reference to the catalog entity.
+        // When deleting a catalog with reference, the database will throw an exception.
+        // I think the ideal is to prevent this exception.
+
+        repository.deleteById(id);
+    }
 }
