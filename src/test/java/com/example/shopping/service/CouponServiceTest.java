@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static com.googlecode.catchexception.CatchException.caughtException;
@@ -55,5 +56,17 @@ class CouponServiceTest {
 
 
         assertEquals(expectedCoupon, result);
+    }
+
+    @Test
+    public void shouldRetrieveAllCoupons() {
+        var firstCoupon = mock(Coupon.class);
+        var secondCoupon = mock(Coupon.class);
+        var list = Arrays.asList(firstCoupon, secondCoupon);
+
+        given(repository.findAll()).willReturn(list);
+
+
+        var result = subject.list();
     }
 }
