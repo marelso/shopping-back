@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
@@ -39,6 +40,21 @@ class CategoryServiceTest {
 
         assertThat(caughtException(), instanceOf(NotFoundException.class));
         then(repository).should().findById(categoryId);
+    }
+
+    @Test
+    public void shouldRetrieveGivenCatalogById() {
+        var categoryId = 0;
+        var expectedCategory = mock(Category.class);
+
+        given(repository.findById(categoryId)).willReturn(Optional.of(expectedCategory));
+
+
+        var result = subject.findById(categoryId);
+
+
+        then(repository).should().findById(categoryId);
+        assertEquals(expectedCategory, result);
     }
 
 }
