@@ -18,4 +18,8 @@ public class CouponService {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Coupon", id));
     }
+
+    public Coupon create(Coupon request) {
+        return repository.save(request);
+    }
 }
