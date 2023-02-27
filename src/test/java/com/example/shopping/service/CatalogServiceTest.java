@@ -67,5 +67,9 @@ class CatalogServiceTest {
 
 
         var result = subject.list();
+
+
+        assertEquals(list, result);
+        then(repository).should().findAll();
     }
 }
