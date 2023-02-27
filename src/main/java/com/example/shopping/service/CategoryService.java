@@ -6,6 +6,8 @@ import com.example.shopping.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -18,5 +20,9 @@ public class CategoryService {
     private Category get(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Category", id));
+    }
+
+    public List<Category> list() {
+        return repository.findAll();
     }
 }
