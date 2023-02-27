@@ -83,5 +83,8 @@ class CategoryServiceTest {
 
 
         var result = subject.create(request);
+
+
+        assertEquals(expectedCategory, result);
     }
 }
