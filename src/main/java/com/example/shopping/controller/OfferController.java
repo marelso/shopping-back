@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/offers")
 @RequiredArgsConstructor
 public class OfferController {
-    private OfferService service;
+    private final OfferService service;
 
     @GetMapping
     public List<OfferDTO> get() {
