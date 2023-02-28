@@ -99,4 +99,45 @@ public class OfferService {
         relationService.deleteByOffersId(id);
         repository.deleteById(id);
     }
+
+    public OfferDTO update(Integer id, OfferRequest request) {
+        if(request.getCategories().isEmpty()) {
+            throw new RuntimeException("Offer must have an category.");
+        }
+        relationService.deleteByOffersId(id);
+
+        var response = new OfferDTO();
+
+        Offer offer;
+        Coupon coupon = null;
+
+        if(request.getCoupon() != null && request.getCoupon().getId() == null) {
+            coupon = couponService.create(request.getCoupon());
+            offer = factory.from(request, coupon);
+        }
+        else if(request.getCoupon() != null && request.getCoupon().getId() != null){
+            coupon = couponService.findById(request.getCoupon().getId());
+            offer = factory.from(request, coupon);
+        }
+        else {
+            offer = factory.from(request, null);
+        }
+
+        offer = repository.save(offer);
+
+        List<Category> categories = new ArrayList<>();
+        request.getCategories()
+                .forEach((c) -> categories.add(categoryService.findById(c.getId())));
+
+        for(Category category : categories) {
+            var relation = new OfferCategory();
+            relation.setOffersId(offer.getId());
+            relation.setCategoryId(category.getId());
+            relationService.save(relation);
+        }
+
+        response = factory.from(offer, coupon, categories);
+
+        return response;
+    }
 }
