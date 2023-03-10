@@ -39,4 +39,8 @@ public class OfferCategoryService {
     public void deleteByOffersId(Integer id) {
         repository.deleteByOffersId(id);
     }
+
+    public List<OfferCategory> findAllByCategoryId(Integer id) {
+        return repository.findAllByCategoryId(id);
+    }
 }

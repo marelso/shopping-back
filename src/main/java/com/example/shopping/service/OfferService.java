@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,17 +29,18 @@ public class OfferService {
     public List<OfferDTO> list() {
         return repository.findAll()
                 .stream()
-                .map((o) -> {
-                    List<Category> categories = new ArrayList<>();
-                    List<OfferCategory> relatedCategories = relationService.findAllByOffersId(o.getId());
-                    relatedCategories.forEach((r) -> categories.add(categoryService.findById(r.getCategoryId())));
-                    return factory.from(o
-                            , o.getCouponId() != null ? couponService.findById(o.getCouponId()) : null
-                            , categories);
-                })
+                .map(this::getFactoryFromOffer)
                 .collect(Collectors.toList());
     }
 
+    private OfferDTO getFactoryFromOffer(Offer o){
+        List<Category> categories = new ArrayList<>();
+        List<OfferCategory> relatedCategories = relationService.findAllByOffersId(o.getId());
+        relatedCategories.forEach((r) -> categories.add(categoryService.findById(r.getCategoryId())));
+        return factory.from(o
+                , o.getCouponId() != null ? couponService.findById(o.getCouponId()) : null
+                , categories);
+    }
     public OfferDTO findById(Integer id) {
         var offer = get(id);
 
@@ -139,5 +141,18 @@ public class OfferService {
         response = factory.from(offer, coupon, categories);
 
         return response;
+    }
+
+    public List<OfferDTO> findByCategoryId(Integer id) {
+        var relation = relationService.findAllByCategoryId(id);
+
+        var offers = relation
+                .stream()
+                .map((oc) -> get(oc.getOffersId()))
+                .collect(Collectors.toList());
+
+        return offers.stream()
+                .map(this::getFactoryFromOffer)
+                .collect(Collectors.toList());
     }
 }

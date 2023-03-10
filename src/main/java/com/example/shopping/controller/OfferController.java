@@ -24,6 +24,11 @@ public class OfferController {
         return service.findById(id);
     }
 
+    @GetMapping("/category/{id}")
+    public List<OfferDTO> getByCategoryId(@PathVariable Integer id) {
+        return service.findByCategoryId(id);
+    }
+
     @PostMapping
     public OfferDTO post(@RequestBody OfferRequest offer) {
         return service.create(offer);

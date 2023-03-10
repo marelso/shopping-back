@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface OfferCategoryRepository extends JpaRepository<OfferCategory, Integer> {
     List<OfferCategory> findAllByOffersId(Integer id);
+    List<OfferCategory> findAllByCategoryId(Integer id);
 
     void deleteByOffersId(Integer offersId);
 }
